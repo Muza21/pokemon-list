@@ -52,3 +52,5 @@ export default tseslint.config({
   },
 })
 ```
+
+checkout the website(https://pokemon-list-dusky.vercel.app/)
