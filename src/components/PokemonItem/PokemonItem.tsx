@@ -1,3 +1,8 @@
+import { MouseEvent } from "react";
+import Minus from "../../assets/Icons/Minus";
+import Plus from "../../assets/Icons/Plus";
+import Star from "../../assets/Icons/Star";
+import Button from "../Button/Button";
 import styles from "./PokemonItem.module.css";
 
 export type Pokemon = {
@@ -8,16 +13,32 @@ export type Pokemon = {
 };
 
 const PokemonItem = ({ name, id, isFavorite, isInComparison }: Pokemon) => {
-  console.log("here");
+  const handleClick = () => {
+    console.log(name);
+  };
   return (
     <>
-      <div className={styles.pokemon_card}>
+      <div className={styles.pokemon_card} onClick={handleClick}>
         <div className={styles.header}>
           <h3 className={styles.name}>{name}</h3>
           <p className={styles.id}>{id}</p>
         </div>
-        {isFavorite ? <>true</> : <>false</>}
-        {isInComparison ? <>true</> : <>false</>}
+        <div className={styles.buttons_container}>
+          <Button
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+            }}
+          >
+            <Star filled={isFavorite} />
+          </Button>
+          <Button
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+            }}
+          >
+            {isInComparison ? <Minus /> : <Plus />}
+          </Button>
+        </div>
       </div>
     </>
   );

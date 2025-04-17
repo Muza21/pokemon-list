@@ -5,6 +5,6 @@
   gap: 5px;
 }
 
-.button::first-letter {
+.button {
   text-transform: capitalize;
 }
