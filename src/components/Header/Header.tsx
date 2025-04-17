@@ -1,3 +1,4 @@
+import Button from "../Button/Button";
 import styles from "./Header.module.css";
 
 const Header = () => {
@@ -6,8 +7,8 @@ const Header = () => {
       <header className={styles.header}>
         <h1 className={styles.title}>pokemon list</h1>
         <div className={styles.buttons_container}>
-          <button className={styles.favorites}>favorites</button>
-          <button className={styles.comparison}>comparison</button>
+          <Button className={styles.favorites}>favorites</Button>
+          <Button className={styles.comparison}>comparison</Button>
         </div>
       </header>
     </>

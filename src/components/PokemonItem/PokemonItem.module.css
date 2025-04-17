@@ -1,0 +1,30 @@
+.pokemon_card {
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffcb05;
+  /* background-color: #3b4cca; */
+  /* background-color: #fafafa; */
+  /* background-color: #ffcb05; */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.name::first-letter {
+  text-transform: capitalize;
+}
+
+.id {
+  font-size: 18px;
+  color: #6b7280;
+}

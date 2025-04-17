@@ -7,11 +7,15 @@ export type Pokemon = {
   isInComparison: boolean;
 };
 
-const PokemonItem = ({ name, isFavorite, isInComparison }: Pokemon) => {
+const PokemonItem = ({ name, id, isFavorite, isInComparison }: Pokemon) => {
+  console.log("here");
   return (
     <>
       <div className={styles.pokemon_card}>
-        <h3 className={styles.name}>{name}</h3>
+        <div className={styles.header}>
+          <h3 className={styles.name}>{name}</h3>
+          <p className={styles.id}>{id}</p>
+        </div>
         {isFavorite ? <>true</> : <>false</>}
         {isInComparison ? <>true</> : <>false</>}
       </div>
