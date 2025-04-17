@@ -1,14 +1,14 @@
 import styles from "./PokemonList.module.css";
 import Pagination from "../Pagination/Pagination";
 import PokemonItem, { Pokemon } from "../PokemonItem/PokemonItem.tsx";
-import { pockemonData } from "../../data/pockemonData.ts";
+import { pokemonData } from "../../data/pokemonData.ts";
 import React from "react";
 
 const PokemonList = () => {
   return (
     <>
       <div className={styles.pokemon_list}>
-        {pockemonData.map((pokemon: Pokemon) => {
+        {pokemonData.map((pokemon: Pokemon) => {
           return (
             <React.Fragment key={pokemon.id}>
               <PokemonItem
