@@ -1,0 +1,38 @@
+.pokemon_card {
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffcb05;
+  cursor: pointer;
+}
+
+.pokemon_card:hover {
+  background-color: #bd9a0e;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.name::first-letter {
+  text-transform: capitalize;
+}
+
+.id {
+  font-size: 18px;
+  color: #6b7280;
+}
+
+.buttons_container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
