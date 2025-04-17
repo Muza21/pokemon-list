@@ -1,14 +1,14 @@
-import './App.css'
-import Header from './components/Header/Header'
-import PokemonList from './components/PokemonList/PokemonList'
+import "./App.css";
+import Header from "./components/Header/Header";
+import PokemonList from "./components/PokemonList/PokemonList";
 
 function App() {
   return (
     <>
-    <Header />
-    <PokemonList />
+      <Header />
+      <PokemonList />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

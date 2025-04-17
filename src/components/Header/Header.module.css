@@ -1,34 +1,36 @@
-.header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-transform: capitalize;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: capitalize;
 }
 
-.buttons_container{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+.buttons_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
 }
 
-.favorites, .comparison{
-    padding: 5px 10px;
-    border: none;
-    outline: inherit;
-    cursor: pointer;
-    background-color: aquamarine;
-    color: black;
-    display: inline-block;
-    border-radius: 8px;
+.favorites,
+.comparison {
+  padding: 5px 10px;
+  border: none;
+  outline: inherit;
+  cursor: pointer;
+  background-color: aquamarine;
+  color: black;
+  display: inline-block;
+  border-radius: 8px;
 }
 
-.favorites::first-letter, .comparison::first-letter{
-    text-transform: capitalize;
+.favorites::first-letter,
+.comparison::first-letter {
+  text-transform: capitalize;
 }
 
-.favorites:hover, .comparison:hover{
-    background-color: blueviolet;
-    color:white;
+.favorites:hover,
+.comparison:hover {
+  background-color: blueviolet;
+  color: white;
 }
-

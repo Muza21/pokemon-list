@@ -1,17 +1,17 @@
-.pagination_container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+.pagination_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
-.button{
-    padding: 5px;
-    border: none;
-    outline: inherit;
-    cursor: pointer;
-    background-color: aquamarine;
-    color: black;
-    display: inline-block;
-    border-radius: 8px;
+.button {
+  padding: 5px;
+  border: none;
+  outline: inherit;
+  cursor: pointer;
+  background-color: aquamarine;
+  color: black;
+  display: inline-block;
+  border-radius: 8px;
 }
