@@ -1,0 +1,47 @@
+.container {
+  padding: 20px 60px;
+}
+
+.image_container {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid #e7ea13;
+  overflow: hidden;
+}
+
+.image_container img {
+  height: 100%;
+}
+
+.pokemon_info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+  text-transform: capitalize;
+}
+
+.name {
+  font-size: 48px;
+}
+
+.height,
+.weight,
+.stats {
+  font-size: 24px;
+}
+
+.buttons_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.stat {
+  list-style-type: none;
+}
