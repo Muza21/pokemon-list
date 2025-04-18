@@ -1,12 +1,14 @@
 import "./App.css";
 import Header from "./components/Header/Header";
-import PokemonList from "./components/PokemonList/PokemonList";
+import PokemonInfo from "./components/PokemonInfo/PokemonInfo";
+// import PokemonList from "./components/PokemonList/PokemonList";
 
 function App() {
   return (
     <>
       <Header />
-      <PokemonList />
+      {/* <PokemonList /> */}
+      <PokemonInfo />
     </>
   );
 }
