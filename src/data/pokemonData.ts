@@ -14,7 +14,7 @@ export const pokemonData = [
   {
     id: 3,
     name: "Venusaur",
-    isFavorite: false,
+    isFavorite: true,
     isInComparison: false,
   },
   {
@@ -26,7 +26,7 @@ export const pokemonData = [
   {
     id: 5,
     name: "Charmeleon",
-    isFavorite: false,
+    isFavorite: true,
     isInComparison: false,
   },
   {
@@ -38,7 +38,7 @@ export const pokemonData = [
   {
     id: 7,
     name: "Squirtle",
-    isFavorite: false,
+    isFavorite: true,
     isInComparison: false,
   },
   {

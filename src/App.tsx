@@ -1,6 +1,8 @@
 import "./App.css";
+import ComparePokemon from "./components/ComparePokemon/ComparePokemon";
+// import FavouritePokemonList from "./components/FavouritePokemonList/FavouritePokemonList";
 import Header from "./components/Header/Header";
-import PokemonInfo from "./components/PokemonInfo/PokemonInfo";
+// import PokemonInfo from "./components/PokemonInfo/PokemonInfo";
 // import PokemonList from "./components/PokemonList/PokemonList";
 
 function App() {
@@ -8,7 +10,9 @@ function App() {
     <>
       <Header />
       {/* <PokemonList /> */}
-      <PokemonInfo />
+      {/* <PokemonInfo /> */}
+      {/* <FavouritePokemonList /> */}
+      <ComparePokemon />
     </>
   );
 }
