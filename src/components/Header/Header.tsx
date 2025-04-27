@@ -7,13 +7,15 @@ const Header = () => {
     <>
       <header className={styles.header}>
         <h1 className={styles.title}>
-          <Link to="/">pokemon list</Link>
+          <Link to="/" className={styles.link}>
+            pokemon list
+          </Link>
         </h1>
         <div className={styles.buttons_container}>
-          <Link to="/favorites">
+          <Link to="/favorites" className={styles.link}>
             <Button className={styles.favorites}>favorites</Button>
           </Link>
-          <Link to="/comparison">
+          <Link to="/comparison" className={styles.link}>
             <Button className={styles.comparison}>comparison</Button>
           </Link>
         </div>
