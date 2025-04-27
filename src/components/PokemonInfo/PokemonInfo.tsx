@@ -1,40 +1,36 @@
 import styles from "./PokemonInfo.module.css";
-import pikachuImage from "../../assets/images/pikachu.jpeg";
 import Button from "../Button/Button";
 import Star from "../../assets/Icons/Star";
 import Minus from "../../assets/Icons/Minus";
 import Plus from "../../assets/Icons/Plus";
 import { MouseEvent } from "react";
-
-const pokemonData = {
-  name: "Pikachu",
-  height: 41,
-  weight: 6,
-  stats: [
-    { name: "hp", value: 45 },
-    { name: "attack", value: 75 },
-    { name: "speed", value: 120 },
-  ],
-  image: pikachuImage,
-  isFavorite: true,
-  isInComparison: false,
-};
+import { useParams } from "react-router-dom";
+import { pokemonData } from "../../data/pokemonData";
 
 const PokemonInfo = () => {
+  const { id } = useParams();
+  const pokemon = pokemonData.find(
+    (pokemonItem) => pokemonItem.id === Number(id)
+  );
+
+  if (!pokemon) {
+    return <div>404 not found</div>;
+  }
+
   return (
     <article className={styles.container}>
       <div className={styles.pokemon_info}>
         <div className={styles.image_container}>
-          <img src={pokemonData.image} alt={`${pokemonData.name} image`} />
+          <img src={pokemon.image} alt={`${pokemon.name} image`} />
         </div>
         <div className={styles.details}>
-          <h3 className={styles.name}>{pokemonData.name}</h3>
-          <p className={styles.height}>height: {pokemonData.height} cm</p>
-          <p className={styles.weight}>weight: {pokemonData.weight} kg</p>
+          <h3 className={styles.name}>{pokemon.name}</h3>
+          <p className={styles.height}>height: {pokemon.height} cm</p>
+          <p className={styles.weight}>weight: {pokemon.weight} kg</p>
           <div className={styles.stats}>
             <p>stats</p>
             <ul>
-              {pokemonData.stats.map((stat, index) => (
+              {pokemon.stats.map((stat, index) => (
                 <li className={styles.stat} key={index}>
                   {stat.name}: {stat.value}
                 </li>
@@ -49,14 +45,14 @@ const PokemonInfo = () => {
             e.stopPropagation();
           }}
         >
-          <Star filled={pokemonData.isFavorite} />
+          <Star filled={pokemon.isFavorite} />
         </Button>
         <Button
           onClick={(e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
           }}
         >
-          {pokemonData.isInComparison ? <Minus /> : <Plus />}
+          {pokemon.isInComparison ? <Minus /> : <Plus />}
         </Button>
       </div>
     </article>

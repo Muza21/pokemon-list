@@ -17,7 +17,7 @@ const PokemonItem = ({ name, id, isFavorite, isInComparison }: Pokemon) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/details/${id}`);
+    navigate(`/pokemon/${id}`);
   };
   return (
     <>

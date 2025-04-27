@@ -12,14 +12,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<PokemonList />} />
-        <Route path="/details/:id" element={<PokemonInfo />} />
+        <Route path="/pokemon/:id" element={<PokemonInfo />} />
         <Route path="/favorites" element={<FavouritePokemonList />} />
         <Route path="/comparison" element={<ComparePokemon />} />
       </Routes>
-      {/* <PokemonList /> */}
-      {/* <PokemonInfo /> */}
-      {/* <FavouritePokemonList /> */}
-      {/* <ComparePokemon /> */}
     </>
   );
 }
