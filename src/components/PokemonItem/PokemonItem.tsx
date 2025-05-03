@@ -4,6 +4,7 @@ import Plus from "../../assets/Icons/Plus";
 import Star from "../../assets/Icons/Star";
 import Button from "../Button/Button";
 import styles from "./PokemonItem.module.css";
+import { useNavigate } from "react-router-dom";
 
 export type Pokemon = {
   name: string;
@@ -13,8 +14,10 @@ export type Pokemon = {
 };
 
 const PokemonItem = ({ name, id, isFavorite, isInComparison }: Pokemon) => {
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    console.log(name);
+    navigate(`/pokemon/${id}`);
   };
   return (
     <>
