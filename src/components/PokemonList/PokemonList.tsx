@@ -29,26 +29,33 @@ const PokemonList = () => {
 
   return (
     <>
-      <div className={styles.pokemon_list}>
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error: {error}</p>}
-        {pokemons.map((pokemon: PokemonResult) => {
-          return (
-            <PokemonItem
-              key={Number(pokemon.url.split("/").filter(Boolean).pop())}
-              name={pokemon.name}
-              id={Number(pokemon.url.split("/").filter(Boolean).pop())}
-              isFavorite={false}
-              isInComparison={false}
-            />
-          );
-        })}
-      </div>
-      <Pagination
-        totalCount={totalCount}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+      {error && <p>Error: {error}</p>}
+      {isLoading ? (
+        <div className={styles.pokemon_list}>
+          <span className={styles.loader}></span>
+        </div>
+      ) : (
+        <>
+          <div className={styles.pokemon_list}>
+            {pokemons.map((pokemon: PokemonResult) => {
+              return (
+                <PokemonItem
+                  key={Number(pokemon.url.split("/").filter(Boolean).pop())}
+                  name={pokemon.name}
+                  id={Number(pokemon.url.split("/").filter(Boolean).pop())}
+                  isFavorite={false}
+                  isInComparison={false}
+                />
+              );
+            })}
+          </div>
+          <Pagination
+            totalCount={totalCount}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </>
+      )}
     </>
   );
 };
