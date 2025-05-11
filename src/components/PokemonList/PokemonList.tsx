@@ -1,20 +1,36 @@
 import styles from "./PokemonList.module.css";
 import Pagination from "../Pagination/Pagination";
-import PokemonItem, { Pokemon } from "../PokemonItem/PokemonItem.tsx";
-import { pokemonData } from "../../data/pokemonData.ts";
+import PokemonItem from "../PokemonItem/PokemonItem.tsx";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../store/index.ts";
+import { fetchPokemons } from "../../store/pokemons/slice";
+import { RootState } from "../../store/index.ts";
+import { PokemonResult } from "../../store/pokemons/types.ts";
 
 const PokemonList = () => {
+  const dispatch = useAppDispatch();
+  const pokemons = useSelector((state: RootState) => state.pokemons.list);
+  const isLoading = useSelector((state: RootState) => state.pokemons.loading);
+  const error = useSelector((state: RootState) => state.pokemons.error);
+
+  useEffect(() => {
+    dispatch(fetchPokemons());
+  }, [dispatch]);
+
   return (
     <>
       <div className={styles.pokemon_list}>
-        {pokemonData.map((pokemon: Pokemon) => {
+        {isLoading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        {pokemons.map((pokemon: PokemonResult) => {
           return (
             <PokemonItem
-              key={pokemon.id}
+              key={Number(pokemon.url.split("/").filter(Boolean).pop())}
               name={pokemon.name}
-              id={pokemon.id}
-              isFavorite={pokemon.isFavorite}
-              isInComparison={pokemon.isInComparison}
+              id={Number(pokemon.url.split("/").filter(Boolean).pop())}
+              isFavorite={false}
+              isInComparison={false}
             />
           );
         })}
