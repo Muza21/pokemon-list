@@ -1,7 +1,7 @@
 import styles from "./PokemonList.module.css";
 import Pagination from "../Pagination/Pagination";
 import PokemonItem from "../PokemonItem/PokemonItem.tsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store/index.ts";
 import { fetchPokemons } from "../../store/pokemons/slice";
@@ -13,6 +13,15 @@ const PokemonList = () => {
   const pokemons = useSelector((state: RootState) => state.pokemons.list);
   const isLoading = useSelector((state: RootState) => state.pokemons.loading);
   const error = useSelector((state: RootState) => state.pokemons.error);
+  const totalCount = useSelector((state: RootState) => state.pokemons.count);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page: number) => {
+    const offset = (page - 1) * 20;
+    const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`;
+    dispatch(fetchPokemons(url));
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     dispatch(fetchPokemons());
@@ -35,7 +44,11 @@ const PokemonList = () => {
           );
         })}
       </div>
-      <Pagination />
+      <Pagination
+        totalCount={totalCount}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 };
