@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { PokemonAPIResponse, PokemonState } from "./types";
+import type { PokemonAPIResponse, PokemonDetails, PokemonState } from "./types";
 
 export const fetchPokemons = createAsyncThunk<
   PokemonAPIResponse,
@@ -20,6 +20,22 @@ export const fetchPokemons = createAsyncThunk<
   }
 );
 
+export const fetchPokemonDetails = createAsyncThunk<
+  PokemonDetails,
+  string,
+  { rejectValue: string }
+>("fetchPokemonDetails", async (id, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    if (!res.ok) throw new Error("Failed to fetch Pokémon details");
+    return await res.json();
+  } catch (err) {
+    return rejectWithValue(
+      err instanceof Error ? err.message : "Unknown error"
+    );
+  }
+});
+
 const initialState: PokemonState = {
   list: [],
   count: 0,
@@ -27,6 +43,9 @@ const initialState: PokemonState = {
   previous: null,
   loading: false,
   error: null,
+  pokemon: null,
+  detailsLoading: false,
+  detailsError: null,
 };
 
 const pokemonSlice = createSlice({
@@ -49,6 +68,19 @@ const pokemonSlice = createSlice({
       .addCase(fetchPokemons.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Unknown error";
+      })
+
+      .addCase(fetchPokemonDetails.pending, (state) => {
+        state.detailsLoading = true;
+        state.detailsError = null;
+      })
+      .addCase(fetchPokemonDetails.fulfilled, (state, action) => {
+        state.detailsLoading = false;
+        state.pokemon = action.payload;
+      })
+      .addCase(fetchPokemonDetails.rejected, (state, action) => {
+        state.detailsLoading = false;
+        state.detailsError = action.payload ?? "Unknown error";
       });
   },
 });

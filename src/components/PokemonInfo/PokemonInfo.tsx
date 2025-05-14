@@ -1,61 +1,83 @@
 import styles from "./PokemonInfo.module.css";
 import Button from "../Button/Button";
 import Star from "../../assets/Icons/Star";
-import Minus from "../../assets/Icons/Minus";
+// import Minus from "../../assets/Icons/Minus";
 import Plus from "../../assets/Icons/Plus";
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { pokemonData } from "../../data/pokemonData";
+import { useSelector } from "react-redux";
+import { useAppDispatch, RootState } from "../../store/index";
+import { fetchPokemonDetails } from "../../store/pokemons/slice";
+import Loader from "../Loader/Loader";
 
 const PokemonInfo = () => {
   const { id } = useParams();
-  const pokemon = pokemonData.find(
-    (pokemonItem) => pokemonItem.id === Number(id)
+  const dispatch = useAppDispatch();
+  const error = useSelector((state: RootState) => state.pokemons.detailsError);
+  const { pokemon, detailsLoading, detailsError } = useSelector(
+    (state: RootState) => state.pokemons
   );
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchPokemonDetails(id));
+    }
+  }, [id, dispatch]);
 
   if (!pokemon) {
     return <div>404 not found</div>;
   }
 
   return (
-    <article className={styles.container}>
-      <div className={styles.pokemon_info}>
-        <div className={styles.image_container}>
-          <img src={pokemon.image} alt={`${pokemon.name} image`} />
-        </div>
-        <div className={styles.details}>
-          <h3 className={styles.name}>{pokemon.name}</h3>
-          <p className={styles.height}>height: {pokemon.height} cm</p>
-          <p className={styles.weight}>weight: {pokemon.weight} kg</p>
-          <div className={styles.stats}>
-            <p>stats</p>
-            <ul>
-              {pokemon.stats.map((stat, index) => (
-                <li className={styles.stat} key={index}>
-                  {stat.name}: {stat.value}
-                </li>
-              ))}
-            </ul>
+    <>
+      {detailsError && <p>Error: {error}</p>}
+      {detailsLoading ? (
+        <Loader />
+      ) : (
+        <article className={styles.container}>
+          <div className={styles.pokemon_info}>
+            <div className={styles.image_container}>
+              <img
+                src={pokemon.sprites.other["official-artwork"].front_default}
+                alt={`${pokemon.name} image`}
+              />
+            </div>
+            <div className={styles.details}>
+              <h3 className={styles.name}>{pokemon.name}</h3>
+              <p className={styles.height}>height: {pokemon.height / 10} m</p>
+              <p className={styles.weight}>weight: {pokemon.weight / 10} kg</p>
+              <div className={styles.stats}>
+                <p>stats</p>
+                <ul>
+                  {pokemon.stats.map((stat, index) => (
+                    <li className={styles.stat} key={index}>
+                      {stat.stat.name}: {stat.base_stat}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className={styles.buttons_container}>
-        <Button
-          onClick={(e: MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-          }}
-        >
-          <Star filled={pokemon.isFavorite} />
-        </Button>
-        <Button
-          onClick={(e: MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-          }}
-        >
-          {pokemon.isInComparison ? <Minus /> : <Plus />}
-        </Button>
-      </div>
-    </article>
+          <div className={styles.buttons_container}>
+            <Button
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+              }}
+            >
+              <Star filled={false} />
+            </Button>
+            <Button
+              onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+              }}
+            >
+              {/* {pokemon.isInComparison ? <Minus /> : <Plus />} */}
+              <Plus />
+            </Button>
+          </div>
+        </article>
+      )}
+    </>
   );
 };
 

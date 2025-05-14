@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../store/index.ts";
 import { fetchPokemons } from "../../store/pokemons/slice";
 import { RootState } from "../../store/index.ts";
 import { PokemonResult } from "../../store/pokemons/types.ts";
+import Loader from "../Loader/Loader.tsx";
 
 const PokemonList = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,7 @@ const PokemonList = () => {
       {error && <p>Error: {error}</p>}
       {isLoading ? (
         <div className={styles.pokemon_list}>
-          <span className={styles.loader}></span>
+          <Loader />
         </div>
       ) : (
         <>
