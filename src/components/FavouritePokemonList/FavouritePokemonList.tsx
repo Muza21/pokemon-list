@@ -27,25 +27,27 @@ const FavouritePokemonList = () => {
   return (
     <>
       <div className={styles.pokemon_list}>
-        {favoritePokemons.map((pokemon: PokemonResult) => {
-          const id = Number(pokemon.url.split("/").filter(Boolean).pop());
-          const isFavorite = favoritePokemons.some(
-            (fav) => fav.name === pokemon.name
-          );
-          return (
-            <PokemonItem
-              key={id}
-              name={pokemon.name}
-              id={id}
-              isFavorite={isFavorite}
-              onToggleFavorite={(e: React.MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-                dispatch(toggleFavorite(pokemon));
-              }}
-              isInComparison={false}
-            />
-          );
-        })}
+        {favoritePokemons
+          .slice((currentPage - 1) * 20, currentPage * 20)
+          .map((pokemon: PokemonResult) => {
+            const id = Number(pokemon.url.split("/").filter(Boolean).pop());
+            const isFavorite = favoritePokemons.some(
+              (fav) => fav.name === pokemon.name
+            );
+            return (
+              <PokemonItem
+                key={id}
+                name={pokemon.name}
+                id={id}
+                isFavorite={isFavorite}
+                onToggleFavorite={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  e.stopPropagation();
+                  dispatch(toggleFavorite(pokemon));
+                }}
+                isInComparison={false}
+              />
+            );
+          })}
       </div>
       <Pagination
         totalCount={totalCount}
