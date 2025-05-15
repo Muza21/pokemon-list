@@ -1,19 +1,21 @@
 import styles from "./FavouritePokemonList.module.css";
 import Pagination from "../Pagination/Pagination";
-import PokemonItem, { Pokemon } from "../PokemonItem/PokemonItem.tsx";
-import { pokemonData } from "../../data/pokemonData.ts";
+import PokemonItem from "../PokemonItem/PokemonItem.tsx";
 import { useSelector } from "react-redux";
 import { fetchPokemons } from "../../store/pokemons/slice.ts";
 import { useState } from "react";
 import { RootState, useAppDispatch } from "../../store/index.ts";
+import { toggleFavorite } from "../../store/favourites/slice.ts";
+import { PokemonResult } from "../../store/pokemons/types.ts";
 
 const FavouritePokemonList = () => {
-  const favoritePokemons = pokemonData.filter(
-    (pokemon: Pokemon) => pokemon.isFavorite
+  const favoritePokemons = useSelector(
+    (state: RootState) => state.favorites.items
   );
   const dispatch = useAppDispatch();
-
-  const totalCount = useSelector((state: RootState) => state.pokemons.count);
+  const totalCount = useSelector(
+    (state: RootState) => state.favorites.items.length
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page: number) => {
@@ -22,18 +24,25 @@ const FavouritePokemonList = () => {
     dispatch(fetchPokemons(url));
     setCurrentPage(page);
   };
-
   return (
     <>
       <div className={styles.pokemon_list}>
-        {favoritePokemons.map((pokemon: Pokemon) => {
+        {favoritePokemons.map((pokemon: PokemonResult) => {
+          const id = Number(pokemon.url.split("/").filter(Boolean).pop());
+          const isFavorite = favoritePokemons.some(
+            (fav) => fav.name === pokemon.name
+          );
           return (
             <PokemonItem
-              key={pokemon.id}
+              key={id}
               name={pokemon.name}
-              id={pokemon.id}
-              isFavorite={pokemon.isFavorite}
-              isInComparison={pokemon.isInComparison}
+              id={id}
+              isFavorite={isFavorite}
+              onToggleFavorite={(e: React.MouseEvent<HTMLButtonElement>) => {
+                e.stopPropagation();
+                dispatch(toggleFavorite(pokemon));
+              }}
+              isInComparison={false}
             />
           );
         })}
