@@ -34,11 +34,6 @@ const PokemonItem = ({
           <p className={styles.id}>{id}</p>
         </div>
         <div className={styles.buttons_container}>
-          {/* <Button
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-            }}
-          > */}
           <Button onClick={onToggleFavorite}>
             <Star filled={isFavorite} />
           </Button>
