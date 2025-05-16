@@ -10,10 +10,17 @@ export type Pokemon = {
   name: string;
   id: number;
   isFavorite: boolean;
+  onToggleFavorite: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isInComparison: boolean;
 };
 
-const PokemonItem = ({ name, id, isFavorite, isInComparison }: Pokemon) => {
+const PokemonItem = ({
+  name,
+  id,
+  isFavorite,
+  isInComparison,
+  onToggleFavorite,
+}: Pokemon) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -27,11 +34,7 @@ const PokemonItem = ({ name, id, isFavorite, isInComparison }: Pokemon) => {
           <p className={styles.id}>{id}</p>
         </div>
         <div className={styles.buttons_container}>
-          <Button
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-            }}
-          >
+          <Button onClick={onToggleFavorite}>
             <Star filled={isFavorite} />
           </Button>
           <Button

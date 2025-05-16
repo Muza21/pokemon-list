@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch, RootState } from "../../store/index";
 import { fetchPokemonDetails } from "../../store/pokemons/slice";
 import Loader from "../Loader/Loader";
+import { toggleFavorite } from "../../store/favourites/slice";
 
 const PokemonInfo = () => {
   const { id } = useParams();
@@ -17,6 +18,9 @@ const PokemonInfo = () => {
   const { pokemon, detailsLoading, detailsError } = useSelector(
     (state: RootState) => state.pokemons
   );
+  const favorites = useSelector((state: RootState) => state.favorites.items);
+  const url = `https://pokeapi.co/api/v2/pokemon/${pokemon?.id}/`;
+  const isFavorite = favorites.some((fav) => fav.name === pokemon?.name);
 
   useEffect(() => {
     if (id) {
@@ -60,11 +64,11 @@ const PokemonInfo = () => {
           </div>
           <div className={styles.buttons_container}>
             <Button
-              onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-              }}
+              onClick={() =>
+                dispatch(toggleFavorite({ name: pokemon.name, url: url }))
+              }
             >
-              <Star filled={false} />
+              <Star filled={isFavorite} />
             </Button>
             <Button
               onClick={(e: MouseEvent<HTMLButtonElement>) => {

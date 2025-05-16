@@ -8,6 +8,7 @@ import { fetchPokemons } from "../../store/pokemons/slice";
 import { RootState } from "../../store/index.ts";
 import { PokemonResult } from "../../store/pokemons/types.ts";
 import Loader from "../Loader/Loader.tsx";
+import { toggleFavorite } from "../../store/favourites/slice.ts";
 
 const PokemonList = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ const PokemonList = () => {
   const isLoading = useSelector((state: RootState) => state.pokemons.loading);
   const error = useSelector((state: RootState) => state.pokemons.error);
   const totalCount = useSelector((state: RootState) => state.pokemons.count);
+  const favorites = useSelector((state: RootState) => state.favorites.items);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page: number) => {
@@ -39,13 +41,26 @@ const PokemonList = () => {
         <>
           <div className={styles.pokemon_list}>
             {pokemons.map((pokemon: PokemonResult) => {
+              const id = Number(pokemon.url.split("/").filter(Boolean).pop());
+              const isFavorite = favorites.some(
+                (fav) => fav.name === pokemon.name
+              );
+
               return (
                 <PokemonItem
-                  key={Number(pokemon.url.split("/").filter(Boolean).pop())}
+                  key={id}
                   name={pokemon.name}
-                  id={Number(pokemon.url.split("/").filter(Boolean).pop())}
-                  isFavorite={false}
+                  id={id}
+                  isFavorite={isFavorite}
                   isInComparison={false}
+                  onToggleFavorite={(
+                    e: React.MouseEvent<HTMLButtonElement>
+                  ) => {
+                    e.stopPropagation();
+                    dispatch(
+                      toggleFavorite({ name: pokemon.name, url: pokemon.url })
+                    );
+                  }}
                 />
               );
             })}
