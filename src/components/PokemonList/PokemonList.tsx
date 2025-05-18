@@ -9,6 +9,7 @@ import { RootState } from "../../store/index.ts";
 import { PokemonResult } from "../../store/pokemons/types.ts";
 import Loader from "../Loader/Loader.tsx";
 import { toggleFavorite } from "../../store/favourites/slice.ts";
+import { toggleComparison } from "../../store/comparison/slice.ts";
 
 const PokemonList = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,9 @@ const PokemonList = () => {
   const error = useSelector((state: RootState) => state.pokemons.error);
   const totalCount = useSelector((state: RootState) => state.pokemons.count);
   const favorites = useSelector((state: RootState) => state.favorites.items);
+  const comparisonItems = useSelector(
+    (state: RootState) => state.comparison.items
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page: number) => {
@@ -45,6 +49,9 @@ const PokemonList = () => {
               const isFavorite = favorites.some(
                 (fav) => fav.name === pokemon.name
               );
+              const isInComparison = comparisonItems.some(
+                (item) => item.name === pokemon.name
+              );
 
               return (
                 <PokemonItem
@@ -52,7 +59,7 @@ const PokemonList = () => {
                   name={pokemon.name}
                   id={id}
                   isFavorite={isFavorite}
-                  isInComparison={false}
+                  isInComparison={isInComparison}
                   onToggleFavorite={(
                     e: React.MouseEvent<HTMLButtonElement>
                   ) => {
@@ -60,6 +67,15 @@ const PokemonList = () => {
                     dispatch(
                       toggleFavorite({ name: pokemon.name, url: pokemon.url })
                     );
+                  }}
+                  onToggleComparison={async (
+                    e: React.MouseEvent<HTMLButtonElement>
+                  ) => {
+                    e.stopPropagation();
+                    const response = await fetch(pokemon.url);
+                    const pokemonDetails = await response.json();
+
+                    dispatch(toggleComparison(pokemonDetails));
                   }}
                 />
               );

@@ -1,4 +1,3 @@
-import { MouseEvent } from "react";
 import Minus from "../../assets/Icons/Minus";
 import Plus from "../../assets/Icons/Plus";
 import Star from "../../assets/Icons/Star";
@@ -11,6 +10,7 @@ export type Pokemon = {
   id: number;
   isFavorite: boolean;
   onToggleFavorite: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onToggleComparison: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isInComparison: boolean;
 };
 
@@ -20,6 +20,7 @@ const PokemonItem = ({
   isFavorite,
   isInComparison,
   onToggleFavorite,
+  onToggleComparison,
 }: Pokemon) => {
   const navigate = useNavigate();
 
@@ -37,11 +38,7 @@ const PokemonItem = ({
           <Button onClick={onToggleFavorite}>
             <Star filled={isFavorite} />
           </Button>
-          <Button
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-            }}
-          >
+          <Button onClick={onToggleComparison}>
             {isInComparison ? <Minus /> : <Plus />}
           </Button>
         </div>

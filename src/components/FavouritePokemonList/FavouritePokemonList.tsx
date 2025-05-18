@@ -7,6 +7,7 @@ import { useState } from "react";
 import { RootState, useAppDispatch } from "../../store/index.ts";
 import { toggleFavorite } from "../../store/favourites/slice.ts";
 import { PokemonResult } from "../../store/pokemons/types.ts";
+import { toggleComparison } from "../../store/comparison/slice.ts";
 
 const FavouritePokemonList = () => {
   const favoritePokemons = useSelector(
@@ -15,6 +16,9 @@ const FavouritePokemonList = () => {
   const dispatch = useAppDispatch();
   const totalCount = useSelector(
     (state: RootState) => state.favorites.items.length
+  );
+  const comparisonItems = useSelector(
+    (state: RootState) => state.comparison.items
   );
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -34,17 +38,29 @@ const FavouritePokemonList = () => {
             const isFavorite = favoritePokemons.some(
               (fav) => fav.name === pokemon.name
             );
+            const isInComparison = comparisonItems.some(
+              (item) => item.name === pokemon.name
+            );
             return (
               <PokemonItem
                 key={id}
                 name={pokemon.name}
                 id={id}
                 isFavorite={isFavorite}
+                isInComparison={isInComparison}
                 onToggleFavorite={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.stopPropagation();
                   dispatch(toggleFavorite(pokemon));
                 }}
-                isInComparison={false}
+                onToggleComparison={async (
+                  e: React.MouseEvent<HTMLButtonElement>
+                ) => {
+                  e.stopPropagation();
+                  const response = await fetch(pokemon.url);
+                  const pokemonDetails = await response.json();
+
+                  dispatch(toggleComparison(pokemonDetails));
+                }}
               />
             );
           })}
