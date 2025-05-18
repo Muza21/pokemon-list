@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import pokemonsReducer from "./pokemons/slice";
 import favoritesReducer from "./favourites/slice";
 import { useDispatch } from "react-redux";
+import comparisonReducer from "./comparison/slice";
 
 const rootReducer = {
   pokemons: pokemonsReducer,
   favorites: favoritesReducer,
+  comparison: comparisonReducer,
 };
 
 export const store = configureStore({

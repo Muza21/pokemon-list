@@ -1,7 +1,7 @@
 import styles from "./PokemonInfo.module.css";
 import Button from "../Button/Button";
 import Star from "../../assets/Icons/Star";
-// import Minus from "../../assets/Icons/Minus";
+import Minus from "../../assets/Icons/Minus";
 import Plus from "../../assets/Icons/Plus";
 import { MouseEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { useAppDispatch, RootState } from "../../store/index";
 import { fetchPokemonDetails } from "../../store/pokemons/slice";
 import Loader from "../Loader/Loader";
 import { toggleFavorite } from "../../store/favourites/slice";
+import { toggleComparison } from "../../store/comparison/slice";
 
 const PokemonInfo = () => {
   const { id } = useParams();
@@ -21,6 +22,8 @@ const PokemonInfo = () => {
   const favorites = useSelector((state: RootState) => state.favorites.items);
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemon?.id}/`;
   const isFavorite = favorites.some((fav) => fav.name === pokemon?.name);
+  const comparison = useSelector((state: RootState) => state.comparison.items);
+  const isInComparison = comparison.some((item) => item.name === pokemon?.name);
 
   useEffect(() => {
     if (id) {
@@ -73,10 +76,10 @@ const PokemonInfo = () => {
             <Button
               onClick={(e: MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
+                dispatch(toggleComparison(pokemon));
               }}
             >
-              {/* {pokemon.isInComparison ? <Minus /> : <Plus />} */}
-              <Plus />
+              {isInComparison ? <Minus /> : <Plus />}
             </Button>
           </div>
         </article>
