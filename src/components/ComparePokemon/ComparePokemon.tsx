@@ -1,16 +1,18 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Remove from "../../assets/Icons/Remove";
 import styles from "./ComparePokemon.module.css";
 import { RootState } from "../../store";
+import { removeFromComparison } from "../../store/comparison/slice";
 
 const ComparePokemon = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const comparisonItems = useSelector(
     (state: RootState) => state.comparison.items
   );
 
-  console.log(comparisonItems);
-  console.log("comparison");
+  const handleRemove = (name: string) => {
+    dispatch(removeFromComparison(name));
+  };
   return (
     <>
       <h2 className={styles.page_title}>Compare Pokemons</h2>
@@ -25,7 +27,10 @@ const ComparePokemon = () => {
             <div key={pokemon.id} className={styles.column}>
               <div className={styles.name}>
                 {pokemon.name}
-                <span className={styles.icon_container}>
+                <span
+                  className={styles.icon_container}
+                  onClick={() => handleRemove(pokemon.name)}
+                >
                   <Remove />
                 </span>
               </div>
