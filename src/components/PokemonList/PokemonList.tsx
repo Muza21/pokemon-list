@@ -10,6 +10,7 @@ import { PokemonResult } from "../../store/pokemons/types.ts";
 import Loader from "../Loader/Loader.tsx";
 import { toggleFavorite } from "../../store/favourites/slice.ts";
 import { toggleComparison } from "../../store/comparison/slice.ts";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
 
 const PokemonList = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ const PokemonList = () => {
     (state: RootState) => state.comparison.items
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handlePageChange = (page: number) => {
     const offset = (page - 1) * 20;
@@ -36,6 +38,7 @@ const PokemonList = () => {
 
   return (
     <>
+      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
       {error && <p>Error: {error}</p>}
       {isLoading ? (
         <div className={styles.pokemon_list}>
@@ -72,6 +75,16 @@ const PokemonList = () => {
                     e: React.MouseEvent<HTMLButtonElement>
                   ) => {
                     e.stopPropagation();
+                    if (
+                      comparisonItems.length >= 2 &&
+                      !comparisonItems.some((p) => p.name === pokemon.name)
+                    ) {
+                      setErrorMessage(
+                        "You can't compare more than 2 pokemons!"
+                      );
+                      setTimeout(() => setErrorMessage(null), 3000);
+                      return;
+                    }
                     const response = await fetch(pokemon.url);
                     const pokemonDetails = await response.json();
 
