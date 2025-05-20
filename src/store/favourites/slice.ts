@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PokemonResult } from "../pokemons/types";
 
-interface FavoritesState {
+type FavoritesState = {
   items: PokemonResult[];
-}
+};
 
 const initialState: FavoritesState = {
   items: [],

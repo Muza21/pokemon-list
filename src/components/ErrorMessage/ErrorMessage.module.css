@@ -1,0 +1,14 @@
+.error {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #d31010;
+  color: white;
+  font-size: 36px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 8px;
+  z-index: 50;
+  animation: fadeOut 0.3s ease-in-out;
+}
