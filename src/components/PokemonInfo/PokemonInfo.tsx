@@ -12,6 +12,7 @@ import Loader from "../Loader/Loader";
 import { toggleFavorite } from "../../store/favourites/slice";
 import { toggleComparison } from "../../store/comparison/slice";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { motion } from "motion/react";
 
 const PokemonInfo = () => {
   const { id } = useParams();
@@ -47,7 +48,9 @@ const PokemonInfo = () => {
         <article className={styles.container}>
           <div className={styles.pokemon_info}>
             <div className={styles.image_container}>
-              <img
+              <motion.img
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
                 src={pokemon.sprites.other["official-artwork"].front_default}
                 alt={`${pokemon.name} image`}
               />

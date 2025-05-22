@@ -18,7 +18,7 @@ const Button = ({
   return (
     <motion.button
       whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+      whileTap={{ scale: 0.95, backgroundColor: "#000000", color: "#ffffff" }}
       onClick={disabled ? undefined : onClick}
       className={`${styles.button} ${className} ${
         disabled ? styles.disabled : ""
