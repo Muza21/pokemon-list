@@ -13,7 +13,11 @@ const Header = () => {
         className={styles.header}
       >
         <motion.h1
-          whileHover={{ textDecoration: "underline" }}
+          initial={{ borderBottom: "2px solid transparent" }}
+          whileHover={{
+            borderBottom: "2px solid currentColor",
+          }}
+          transition={{ duration: 0.2 }}
           whileTap={{ backgroundColor: "#000000", color: "#ffffff" }}
           className={styles.title}
         >

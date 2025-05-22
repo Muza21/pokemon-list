@@ -1,23 +1,19 @@
 import styles from "./PokemonList.module.css";
 import Pagination from "../Pagination/Pagination";
 import PokemonItem from "../PokemonItem/PokemonItem.tsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store/index.ts";
-import { fetchPokemons } from "../../store/pokemons/slice";
 import { RootState } from "../../store/index.ts";
 import { PokemonResult } from "../../store/pokemons/types.ts";
 import Loader from "../Loader/Loader.tsx";
 import { toggleFavorite } from "../../store/favourites/slice.ts";
 import { toggleComparison } from "../../store/comparison/slice.ts";
 import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
+import { useGetPokemonsQuery } from "../../store/pokemons/api.ts";
 
 const PokemonList = () => {
   const dispatch = useAppDispatch();
-  const pokemons = useSelector((state: RootState) => state.pokemons.list);
-  const isLoading = useSelector((state: RootState) => state.pokemons.loading);
-  const error = useSelector((state: RootState) => state.pokemons.error);
-  const totalCount = useSelector((state: RootState) => state.pokemons.count);
   const favorites = useSelector((state: RootState) => state.favorites.items);
   const comparisonItems = useSelector(
     (state: RootState) => state.comparison.items
@@ -25,21 +21,18 @@ const PokemonList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const offset = (currentPage - 1) * 20;
+  const { data: pokemons, error, isLoading } = useGetPokemonsQuery(offset);
   const handlePageChange = (page: number) => {
-    const offset = (page - 1) * 20;
-    const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`;
-    dispatch(fetchPokemons(url));
     setCurrentPage(page);
   };
 
-  useEffect(() => {
-    dispatch(fetchPokemons());
-  }, [dispatch]);
-
   return (
     <>
-      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-      {error && <p>Error: {error}</p>}
+      {error ||
+        (errorMessage && (
+          <ErrorMessage errorMessage={errorMessage && String(error)} />
+        ))}
       {isLoading ? (
         <div className={styles.pokemon_list}>
           <Loader />
@@ -47,7 +40,7 @@ const PokemonList = () => {
       ) : (
         <>
           <div className={styles.pokemon_list}>
-            {pokemons.map((pokemon: PokemonResult) => {
+            {pokemons?.results.map((pokemon: PokemonResult) => {
               const id = Number(pokemon.url.split("/").filter(Boolean).pop());
               const isFavorite = favorites.some(
                 (fav) => fav.name === pokemon.name
@@ -95,7 +88,7 @@ const PokemonList = () => {
             })}
           </div>
           <Pagination
-            totalCount={totalCount}
+            totalCount={pokemons?.count}
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />

@@ -1,10 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import pokemonsReducer from "./pokemons/slice";
+// import pokemonsReducer from "./pokemons/slice";
 import favoritesReducer from "./favourites/slice";
 import { useDispatch } from "react-redux";
 import comparisonReducer from "./comparison/slice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { pokemonApi } from "./pokemons/api";
 
 const rootPersistConfig = {
   key: "root",
@@ -13,9 +14,10 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  pokemons: pokemonsReducer,
+  // pokemons: pokemonsReducer,
   favorites: favoritesReducer,
   comparison: comparisonReducer,
+  [pokemonApi.reducerPath]: pokemonApi.reducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
@@ -25,7 +27,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(pokemonApi.middleware),
 });
 
 export const persistor = persistStore(store);

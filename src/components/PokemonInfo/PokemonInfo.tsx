@@ -13,14 +13,21 @@ import { toggleFavorite } from "../../store/favourites/slice";
 import { toggleComparison } from "../../store/comparison/slice";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { motion } from "motion/react";
+import { useGetPokemonDetailsQuery } from "../../store/pokemons/api";
 
 const PokemonInfo = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const error = useSelector((state: RootState) => state.pokemons.detailsError);
-  const { pokemon, detailsLoading, detailsError } = useSelector(
-    (state: RootState) => state.pokemons
-  );
+  // const error = useSelector((state: RootState) => state.pokemons.detailsError);
+  // const { pokemon, detailsLoading, detailsError } = useSelector(
+  //   (state: RootState) => state.pokemons
+  // );
+  const {
+    data: pokemon,
+    error,
+    isLoading,
+  } = useGetPokemonDetailsQuery(String(id));
+
   const favorites = useSelector((state: RootState) => state.favorites.items);
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemon?.id}/`;
   const isFavorite = favorites.some((fav) => fav.name === pokemon?.name);
@@ -40,9 +47,11 @@ const PokemonInfo = () => {
 
   return (
     <>
-      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-      {detailsError && <p>Error: {error}</p>}
-      {detailsLoading ? (
+      {error ||
+        (errorMessage && (
+          <ErrorMessage errorMessage={errorMessage && String(error)} />
+        ))}
+      {isLoading ? (
         <Loader />
       ) : (
         <article className={styles.container}>
