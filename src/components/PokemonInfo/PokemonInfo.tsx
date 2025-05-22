@@ -18,10 +18,6 @@ import { useGetPokemonDetailsQuery } from "../../store/pokemons/api";
 const PokemonInfo = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  // const error = useSelector((state: RootState) => state.pokemons.detailsError);
-  // const { pokemon, detailsLoading, detailsError } = useSelector(
-  //   (state: RootState) => state.pokemons
-  // );
   const {
     data: pokemon,
     error,
@@ -49,7 +45,7 @@ const PokemonInfo = () => {
     <>
       {error ||
         (errorMessage && (
-          <ErrorMessage errorMessage={errorMessage && String(error)} />
+          <ErrorMessage errorMessage={error ? String(error) : errorMessage} />
         ))}
       {isLoading ? (
         <Loader />

@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-// import pokemonsReducer from "./pokemons/slice";
 import favoritesReducer from "./favourites/slice";
 import { useDispatch } from "react-redux";
 import comparisonReducer from "./comparison/slice";
@@ -14,7 +13,6 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  // pokemons: pokemonsReducer,
   favorites: favoritesReducer,
   comparison: comparisonReducer,
   [pokemonApi.reducerPath]: pokemonApi.reducer,

@@ -31,7 +31,7 @@ const PokemonList = () => {
     <>
       {error ||
         (errorMessage && (
-          <ErrorMessage errorMessage={errorMessage && String(error)} />
+          <ErrorMessage errorMessage={error ? String(error) : errorMessage} />
         ))}
       {isLoading ? (
         <div className={styles.pokemon_list}>
