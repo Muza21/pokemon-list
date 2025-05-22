@@ -4,6 +4,7 @@ import Star from "../../assets/Icons/Star";
 import Button from "../Button/Button";
 import styles from "./PokemonItem.module.css";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 export type Pokemon = {
   name: string;
@@ -29,7 +30,14 @@ const PokemonItem = ({
   };
   return (
     <>
-      <div className={styles.pokemon_card} onClick={handleClick}>
+      <motion.div
+        initial={{ x: "-50%" }}
+        animate={{ x: "0" }}
+        transition={{ type: "spring" }}
+        whileHover={{ scale: 1.1 }}
+        className={styles.pokemon_card}
+        onClick={handleClick}
+      >
         <div className={styles.header}>
           <h3 className={styles.name}>{name}</h3>
           <p className={styles.id}>{id}</p>
@@ -42,7 +50,7 @@ const PokemonItem = ({
             {isInComparison ? <Minus /> : <Plus />}
           </Button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

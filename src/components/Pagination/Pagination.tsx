@@ -2,7 +2,7 @@ import Button from "../Button/Button";
 import styles from "./Pagination.module.css";
 
 type PaginationProps = {
-  totalCount: number;
+  totalCount: number | undefined;
   currentPage: number;
   onPageChange: (page: number) => void;
 };
@@ -12,7 +12,7 @@ const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
-  const totalPages = Math.ceil(totalCount / 20);
+  const totalPages = totalCount ? Math.ceil(totalCount / 20) : 0;
   const pageNumbers = [];
 
   const range = 1;
