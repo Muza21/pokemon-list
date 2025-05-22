@@ -1,5 +1,6 @@
 import { MouseEvent, ReactNode } from "react";
 import styles from "./Button.module.css";
+import { motion } from "motion/react";
 
 type ButtonProps = {
   children: ReactNode;
@@ -15,7 +16,9 @@ const Button = ({
   disabled,
 }: ButtonProps) => {
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
       onClick={disabled ? undefined : onClick}
       className={`${styles.button} ${className} ${
         disabled ? styles.disabled : ""
@@ -23,7 +26,7 @@ const Button = ({
       disabled={disabled}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };
 
