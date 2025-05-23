@@ -11,6 +11,12 @@ import { toggleFavorite } from "../../store/favourites/slice.ts";
 import { toggleComparison } from "../../store/comparison/slice.ts";
 import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
 import { useGetPokemonsQuery } from "../../store/pokemons/api.ts";
+import {
+  canBeAddedToComparison,
+  extractPokemonId,
+  isInComparisonList,
+  isInFavourite,
+} from "../../utils/pokemon.ts";
 
 const PokemonList = () => {
   const dispatch = useAppDispatch();
@@ -41,12 +47,11 @@ const PokemonList = () => {
         <>
           <div className={styles.pokemon_list}>
             {pokemons?.results.map((pokemon: PokemonResult) => {
-              const id = Number(pokemon.url.split("/").filter(Boolean).pop());
-              const isFavorite = favorites.some(
-                (fav) => fav.name === pokemon.name
-              );
-              const isInComparison = comparisonItems.some(
-                (item) => item.name === pokemon.name
+              const id = extractPokemonId(pokemon.url);
+              const isFavorite = isInFavourite(favorites, pokemon.name);
+              const isInComparison = isInComparisonList(
+                comparisonItems,
+                pokemon.name
               );
 
               return (
@@ -69,8 +74,7 @@ const PokemonList = () => {
                   ) => {
                     e.stopPropagation();
                     if (
-                      comparisonItems.length >= 2 &&
-                      !comparisonItems.some((p) => p.name === pokemon.name)
+                      !canBeAddedToComparison(comparisonItems, pokemon.name)
                     ) {
                       setErrorMessage(
                         "You can't compare more than 2 pokemons!"
