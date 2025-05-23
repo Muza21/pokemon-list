@@ -1,3 +1,4 @@
+import { getPageNumbers, getTotalPages } from "../../utils/pagination";
 import Button from "../Button/Button";
 import styles from "./Pagination.module.css";
 
@@ -12,26 +13,8 @@ const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
-  const totalPages = totalCount ? Math.ceil(totalCount / 20) : 0;
-  const pageNumbers = [];
-
-  const range = 1;
-  const startPage = Math.max(1, currentPage - range);
-  const endPage = Math.min(totalPages, currentPage + range);
-
-  if (startPage > 1) {
-    pageNumbers.push(1);
-    if (startPage > 2) pageNumbers.push("...");
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    pageNumbers.push(i);
-  }
-
-  if (endPage < totalPages) {
-    if (endPage < totalPages - 1) pageNumbers.push("...");
-    pageNumbers.push(totalPages);
-  }
+  const totalPages = totalCount ? getTotalPages(totalCount) : 0;
+  const pageNumbers = totalCount ? getPageNumbers(totalCount, currentPage) : [];
 
   return (
     <>
