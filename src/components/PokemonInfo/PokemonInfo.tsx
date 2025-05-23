@@ -14,6 +14,7 @@ import { toggleComparison } from "../../store/comparison/slice";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { motion } from "motion/react";
 import { useGetPokemonDetailsQuery } from "../../store/pokemons/api";
+import { formatHeight, formatWeight } from "../../utils/format";
 
 const PokemonInfo = () => {
   const { id } = useParams();
@@ -62,8 +63,12 @@ const PokemonInfo = () => {
             </div>
             <div className={styles.details}>
               <h3 className={styles.name}>{pokemon.name}</h3>
-              <p className={styles.height}>height: {pokemon.height / 10} m</p>
-              <p className={styles.weight}>weight: {pokemon.weight / 10} kg</p>
+              <p className={styles.height}>
+                height: {formatHeight(pokemon.height)}
+              </p>
+              <p className={styles.weight}>
+                weight: {formatWeight(pokemon.weight)}
+              </p>
               <div className={styles.stats}>
                 <p>stats</p>
                 <ul>

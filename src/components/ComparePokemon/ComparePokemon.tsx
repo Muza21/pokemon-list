@@ -3,6 +3,7 @@ import Remove from "../../assets/Icons/Remove";
 import styles from "./ComparePokemon.module.css";
 import { RootState } from "../../store";
 import { removeFromComparison } from "../../store/comparison/slice";
+import { formatHeight, formatWeight } from "../../utils/format";
 
 const ComparePokemon = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,8 @@ const ComparePokemon = () => {
                   <Remove />
                 </span>
               </div>
-              <div>{pokemon.height / 10} m</div>
-              <div>{pokemon.weight / 10} kg</div>
+              <div>{formatHeight(pokemon.height)}</div>
+              <div>{formatWeight(pokemon.weight)}</div>
             </div>
           );
         })}
