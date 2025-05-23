@@ -15,6 +15,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { motion } from "motion/react";
 import { useGetPokemonDetailsQuery } from "../../store/pokemons/api";
 import { formatHeight, formatWeight } from "../../utils/format";
+import { canBeAddedToComparison } from "../../utils/pokemon";
 
 const PokemonInfo = () => {
   const { id } = useParams();
@@ -92,10 +93,7 @@ const PokemonInfo = () => {
             <Button
               onClick={(e: MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
-                if (
-                  comparison.length >= 2 &&
-                  !comparison.some((p) => p.name === pokemon.name)
-                ) {
+                if (!canBeAddedToComparison(comparison, pokemon.name)) {
                   setErrorMessage("You can't compare more than 2 pokemons!");
                   setTimeout(() => setErrorMessage(null), 3000);
                   return;

@@ -6,7 +6,7 @@ import styles from "./PokemonItem.module.css";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 
-export type Pokemon = {
+export type PokemonItemProps = {
   name: string;
   id: number;
   isFavorite: boolean;
@@ -22,7 +22,7 @@ const PokemonItem = ({
   isInComparison,
   onToggleFavorite,
   onToggleComparison,
-}: Pokemon) => {
+}: PokemonItemProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
