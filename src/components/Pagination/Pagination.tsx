@@ -15,7 +15,7 @@ const Pagination = ({
 }: PaginationProps) => {
   const totalPages = totalCount ? getTotalPages(totalCount) : 0;
   const pageNumbers = totalCount ? getPageNumbers(totalCount, currentPage) : [];
-
+  console.log(getPageNumbers(100, 2));
   return (
     <>
       <div className={styles.pagination_container}>

@@ -1,4 +1,5 @@
-export const getTotalPages = (totalCount: number) => Math.ceil(totalCount / 20);
+export const getTotalPages = (totalCount: number, itemsPerPage = 20) =>
+  Math.ceil(totalCount / itemsPerPage);
 
 export const getPageNumbers = (totalCount: number, currentPage: number) => {
   const totalPages = getTotalPages(totalCount);
