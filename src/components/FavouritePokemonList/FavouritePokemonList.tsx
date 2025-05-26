@@ -9,6 +9,13 @@ import { toggleFavorite } from "../../store/favourites/slice.ts";
 import { PokemonResult } from "../../store/pokemons/types.ts";
 import { toggleComparison } from "../../store/comparison/slice.ts";
 import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
+import {
+  calculateOffset,
+  canBeAddedToComparison,
+  extractPokemonId,
+  isInComparisonList,
+  isInFavourite,
+} from "../../utils/pokemon.ts";
 
 const FavouritePokemonList = () => {
   const favoritePokemons = useSelector(
@@ -25,11 +32,12 @@ const FavouritePokemonList = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handlePageChange = (page: number) => {
-    const offset = (page - 1) * 20;
+    const offset = calculateOffset(page);
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`;
     dispatch(fetchPokemons(url));
     setCurrentPage(page);
   };
+
   return (
     <>
       <div className={styles.pokemon_list}>
@@ -37,12 +45,11 @@ const FavouritePokemonList = () => {
         {favoritePokemons
           .slice((currentPage - 1) * 20, currentPage * 20)
           .map((pokemon: PokemonResult) => {
-            const id = Number(pokemon.url.split("/").filter(Boolean).pop());
-            const isFavorite = favoritePokemons.some(
-              (fav) => fav.name === pokemon.name
-            );
-            const isInComparison = comparisonItems.some(
-              (item) => item.name === pokemon.name
+            const id = extractPokemonId(pokemon.url);
+            const isFavorite = isInFavourite(favoritePokemons, pokemon.name);
+            const isInComparison = isInComparisonList(
+              comparisonItems,
+              pokemon.name
             );
             return (
               <PokemonItem
@@ -59,10 +66,7 @@ const FavouritePokemonList = () => {
                   e: React.MouseEvent<HTMLButtonElement>
                 ) => {
                   e.stopPropagation();
-                  if (
-                    comparisonItems.length >= 2 &&
-                    !comparisonItems.some((p) => p.name === pokemon.name)
-                  ) {
+                  if (!canBeAddedToComparison(comparisonItems, pokemon.name)) {
                     setErrorMessage("You can't compare more than 2 pokemons!");
                     setTimeout(() => setErrorMessage(null), 3000);
                     return;
